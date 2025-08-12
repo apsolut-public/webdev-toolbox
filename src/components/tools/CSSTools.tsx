@@ -153,7 +153,7 @@ const CSSTools = () => {
           
           const result = '  '.repeat(Math.max(0, indent)) + trimmed;
           
-          if (trimmed.match(/^<[^\/][^>]*[^\/]>$/)) indent++;
+          if (trimmed.match(/^<[^/][^>]*[^/]>$/)) indent++;
           
           return result;
         })

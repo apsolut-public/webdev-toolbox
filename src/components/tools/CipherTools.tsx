@@ -88,10 +88,11 @@ const CipherTools = () => {
 
     try {
       switch (algorithm) {
-        case 'caesar':
+        case 'caesar': {
           const shift = parseInt(key) || 3;
           result = caesarCipher(inputText, shift, mode === 'decrypt');
           break;
+        }
         case 'vigenere':
           if (!key) {
             toast({ title: "Key required", description: "Vigenère cipher requires a key", variant: "destructive" });

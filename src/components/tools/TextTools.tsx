@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -39,7 +38,7 @@ const TextTools = () => {
         );
         break;
       case 'sentence':
-        converted = text.toLowerCase().replace(/(^\s*\w|[\.\!\?]\s*\w)/g, (c) => c.toUpperCase());
+        converted = text.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, (c) => c.toUpperCase());
         break;
       case 'camel':
         converted = text.replace(/(?:^\w|[A-Z]|\b\w)/g, (word, index) => 
