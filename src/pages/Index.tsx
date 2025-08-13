@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Search, Code, Palette, Calculator, FileText, Beaker, Hash, Shield, Settings, ChevronRight, Heart } from 'lucide-react';
+import { Search, Code, Palette, Calculator, FileText, Beaker, Hash, Shield, Settings, ChevronRight } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -15,100 +15,18 @@ import UnitConverter from '@/components/tools/UnitConverter';
 import TextTools from '@/components/tools/TextTools';
 import CSSTools from '@/components/tools/CSSTools';
 import LaboratoryTools from '@/components/tools/LaboratoryTools';
+import { categories } from '@/lib/categories';
 
 const Index = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('text');
-
-  const categories = [
-    {
-      id: 'text',
-      name: 'Text',
-      icon: FileText,
-      description: 'Text processing and formatting tools',
-      color: 'bg-teal-500',
-      tools: ['Case Converter', 'Find & Replace', 'Line Sorter', 'Text Analysis']
-    },
-    {
-      id: 'css',
-      name: 'CSS',
-      icon: Code,
-      description: 'CSS and HTML formatting, minification, and conversion tools',
-      color: 'bg-emerald-500',
-      tools: ['CSS Formatter', 'CSS Minifier', 'CSS to Inline', 'HTML Formatter', 'CSS Validator']
-    },
-    {
-      id: 'json',
-      name: 'JSON',
-      icon: Code,
-      description: 'JSON manipulation and conversion tools',
-      color: 'bg-blue-500',
-      tools: ['JSON Formatting', 'JSON Merge', 'Excel ↔ JSON', 'XML ↔ JSON', 'YAML ↔ JSON']
-    },
-    {
-      id: 'hashing',
-      name: 'Hashing',
-      icon: Hash,
-      description: 'Hash algorithms and generators',
-      color: 'bg-green-500',
-      tools: ['MD5', 'SHA1', 'SHA256', 'SHA512', 'RIPEMD-160']
-    },
-    {
-      id: 'encrypt',
-      name: 'Encrypt',
-      icon: Shield,
-      description: 'Encryption and cipher tools',
-      color: 'bg-purple-500',
-      tools: ['AES', 'DES/TripleDES', 'RC4', 'Rabbit']
-    },
-    {
-      id: 'encoding',
-      name: 'Encoding',
-      icon: FileText,
-      description: 'Data encoding and decoding',
-      color: 'bg-orange-500',
-      tools: ['Base64', 'Base32', 'URL Encoding', 'Unicode', 'Hex']
-    },
-    {
-      id: 'development',
-      name: 'Development',
-      icon: Settings,
-      description: 'Developer utilities and tools',
-      color: 'bg-cyan-500',
-      tools: ['URL Parser', 'Timestamp Converter', 'Base Conversion', 'JWT Decode']
-    },
-    {
-      id: 'design',
-      name: 'Design',
-      icon: Palette,
-      description: 'Design and visual tools',
-      color: 'bg-pink-500',
-      tools: ['Color Converter', 'Color Reversal', 'Image Compression', 'Extract Colors']
-    },
-    {
-      id: 'units',
-      name: 'Units',
-      icon: Calculator,
-      description: 'Unit conversion utilities',
-      color: 'bg-indigo-500',
-      tools: ['Length', 'Area', 'Volume', 'Mass', 'Temperature', 'Speed']
-    },
-    {
-      id: 'laboratory',
-      name: 'Laboratory',
-      icon: Beaker,
-      description: 'Experimental and utility tools',
-      color: 'bg-red-500',
-      tools: ['Energy Restorer', 'Stock Calculator', 'Short Link Generator']
-    }
-  ];
 
   const filteredCategories = categories.filter(category =>
     category.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     category.tools.some(tool => tool.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
-  const renderToolContent = () => {
+  const toolContent = useMemo(() => {
     switch (activeCategory) {
       case 'json':
         return <JSONTools />;
@@ -133,7 +51,7 @@ const Index = () => {
       default:
         return <JSONTools />;
     }
-  };
+  }, [activeCategory]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
@@ -223,7 +141,7 @@ const Index = () => {
                 </div>
               </CardHeader>
               <CardContent>
-                {renderToolContent()}
+                {toolContent}
               </CardContent>
             </Card>
           </div>
