@@ -1,6 +1,6 @@
 
 import React, { useState, useMemo } from 'react';
-import { Search, Code, Palette, Calculator, FileText, Beaker, Hash, Shield, Settings, ChevronRight } from 'lucide-react';
+import { Search, Code, Palette, Calculator, FileText, Beaker, Hash, Shield, Settings, ChevronRight, Heart } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
