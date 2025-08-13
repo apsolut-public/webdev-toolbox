@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { FileText, Type, Search, ArrowUpDown, Copy, Shuffle, Code } from 'lucide-react';
@@ -14,6 +15,8 @@ const TextTools = () => {
   const [searchText, setSearchText] = useState('');
   const [replaceText, setReplaceText] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
+  const [removeSpecialChars, setRemoveSpecialChars] = useState(false);
+  const [removeUmlauts, setRemoveUmlauts] = useState(false);
   const { toast } = useToast();
 
   const copyToClipboard = () => {
@@ -134,6 +137,43 @@ const TextTools = () => {
     
     setResult(keywords);
     toast({ title: "Keywords extracted!" });
+  };
+
+  // Remove Special Characters
+  const removeSpecialCharacters = () => {
+    let processed = text;
+    
+    if (removeSpecialChars) {
+      // Remove special characters but keep spaces, letters, and numbers
+      processed = processed.replace(/[^\w\s]/g, '');
+    }
+    
+    if (removeUmlauts) {
+      // Replace umlauts and other diacritics with their base characters
+      const umlautMap: { [key: string]: string } = {
+        'ä': 'a', 'ö': 'o', 'ü': 'u', 'ß': 'ss',
+        'Ä': 'A', 'Ö': 'O', 'Ü': 'U',
+        'à': 'a', 'á': 'a', 'â': 'a', 'ã': 'a', 'å': 'a',
+        'è': 'e', 'é': 'e', 'ê': 'e', 'ë': 'e',
+        'ì': 'i', 'í': 'i', 'î': 'i', 'ï': 'i',
+        'ò': 'o', 'ó': 'o', 'ô': 'o', 'õ': 'o',
+        'ù': 'u', 'ú': 'u', 'û': 'u',
+        'ñ': 'n', 'ç': 'c',
+        'À': 'A', 'Á': 'A', 'Â': 'A', 'Ã': 'A', 'Å': 'A',
+        'È': 'E', 'É': 'E', 'Ê': 'E', 'Ë': 'E',
+        'Ì': 'I', 'Í': 'I', 'Î': 'I', 'Ï': 'I',
+        'Ò': 'O', 'Ó': 'O', 'Ô': 'O', 'Õ': 'O',
+        'Ù': 'U', 'Ú': 'U', 'Û': 'U',
+        'Ñ': 'N', 'Ç': 'C'
+      };
+      
+      processed = processed.replace(/[äöüßÄÖÜàáâãåèéêëìíîïòóôõùúûñçÀÁÂÃÅÈÉÊËÌÍÎÏÒÓÔÕÙÚÛÑÇ]/g, (match) => {
+        return umlautMap[match] || match;
+      });
+    }
+    
+    setResult(processed);
+    toast({ title: "Text processed successfully!" });
   };
 
   const stats = getTextStats();
@@ -297,13 +337,49 @@ const TextTools = () => {
                 />
               </div>
 
-              <div className="flex gap-2 flex-wrap">
-                <Button onClick={removeLineBreaks} variant="outline">
-                  Remove Line Breaks
-                </Button>
-                <Button onClick={removeDuplicates} variant="outline">
-                  Remove Duplicates
-                </Button>
+              <div className="space-y-4">
+                <div className="flex gap-2 flex-wrap">
+                  <Button onClick={removeLineBreaks} variant="outline">
+                    Remove Line Breaks
+                  </Button>
+                  <Button onClick={removeDuplicates} variant="outline">
+                    Remove Duplicates
+                  </Button>
+                </div>
+                
+                <div className="border rounded-lg p-4 space-y-3">
+                  <h4 className="text-sm font-medium">Character Removal Options</h4>
+                  <div className="space-y-2">
+                    <div className="flex items-center space-x-2">
+                      <Checkbox 
+                        id="remove-special" 
+                        checked={removeSpecialChars}
+                        onCheckedChange={(checked) => setRemoveSpecialChars(checked === true)}
+                      />
+                      <label htmlFor="remove-special" className="text-sm">
+                        Remove special characters (, : ; ! ? etc.)
+                      </label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Checkbox 
+                        id="remove-umlauts" 
+                        checked={removeUmlauts}
+                        onCheckedChange={(checked) => setRemoveUmlauts(checked === true)}
+                      />
+                      <label htmlFor="remove-umlauts" className="text-sm">
+                        Remove umlauts (ä, ö, ü, ß → a, o, u, ss)
+                      </label>
+                    </div>
+                  </div>
+                  <Button 
+                    onClick={removeSpecialCharacters} 
+                    variant="outline" 
+                    className="w-full"
+                    disabled={!removeSpecialChars && !removeUmlauts}
+                  >
+                    Apply Character Removal
+                  </Button>
+                </div>
               </div>
 
               {result && (
