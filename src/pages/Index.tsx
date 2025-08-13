@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Search, Code, Palette, Calculator, FileText, Beaker, Hash, Shield, Settings, ChevronRight } from 'lucide-react';
+import { Search, Code, Palette, Calculator, FileText, Beaker, Hash, Shield, Settings, ChevronRight, Heart } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -229,6 +229,18 @@ const Index = () => {
           </div>
         </div>
       </div>
+      
+      {/* Footer */}
+      <footer className="container mx-auto px-4 py-8 text-center border-t">
+        <a 
+          href="https://apsolut.dev/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-blue-600 transition-colors duration-200"
+        >
+          Created with <Heart className="w-4 h-4 text-red-500 fill-current" /> by AP
+        </a>
+      </footer>
     </div>
   );
 };

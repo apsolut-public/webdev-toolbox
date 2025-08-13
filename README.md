@@ -2,6 +2,8 @@
 
 A comprehensive collection of essential web development tools including JSON formatters, encoders, converters, and utilities for developers and designers.
 
+![WebDev Toolkit Screenshot](./public/screenshot-1.png)
+
 ## 🚀 Features
 
 - **JSON Tools**: Format, validate, and manipulate JSON data
